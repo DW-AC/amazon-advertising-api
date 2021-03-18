@@ -340,8 +340,8 @@ module.exports = class AdvertisingClient {
         var formData = querystring.stringify({
             grant_type: 'refresh_token',
             client_id: this.options.clientId,
-            client_secret: this.options.clientSecret,
-            refresh_token: this.options.refreshToken
+            refresh_token: this.options.refreshToken,
+            client_secret: this.options.clientSecret
         });
 
         let response = (await needle(
@@ -352,7 +352,7 @@ module.exports = class AdvertisingClient {
         )).body;
 
         if (response.error) {
-            throw resData.error
+            throw response.error
         }
 
         this.options.accessToken = response.access_token;
