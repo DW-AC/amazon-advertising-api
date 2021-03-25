@@ -65,7 +65,7 @@ module.exports = class AdvertisingClient {
 
         this.tokenUrl = Regions[options.region].tokenUrl;
 
-        if (options.sandbox) {
+        if (typeof options.sandbox === "undefined" || options.sandbox === false) {
             this.endpoint = Regions[options.region].sandbox;
         } else {
             this.endpoint = Regions[options.region].prod;
@@ -81,7 +81,7 @@ module.exports = class AdvertisingClient {
         return this.apiRequest(`profiles/register`, { countryCode: this.options.region }, 'PUT');
     }
     listProfiles() {
-        return this.apiRequest(`v2/sp/profiles`, null, 'GET');
+        return this.apiRequest(`v2/profiles`, null, 'GET');
     }
     registerProfile(data) {
         return this.apiRequest(`v2/sp/profiles/register`, data, `PUT`);
@@ -291,6 +291,9 @@ module.exports = class AdvertisingClient {
     }
 
     requestReport(campaignType, recordType, data) {
+        if (campaignType === "sd") {
+            return this.apiRequest(`${campaignType}/${recordType}/report`, data, `POST`);
+        }
         return this.apiRequest(`v2/${campaignType}/${recordType}/report`, data, `POST`);
     }
 
