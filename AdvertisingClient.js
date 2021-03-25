@@ -74,8 +74,8 @@ module.exports = class AdvertisingClient {
 
     async init() {
         await this.refresh();
-        // setIntervalAsync(this.refresh.bind(this), 2000 * 60)
-        setIntervalAsync(this.refresh.bind(this), 1800000)
+        setIntervalAsync(this.refresh.bind(this), 2000 * 60)
+        // setIntervalAsync(this.refresh.bind(this), 1800000)
     }
 
     register() {
