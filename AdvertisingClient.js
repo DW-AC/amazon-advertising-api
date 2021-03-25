@@ -86,6 +86,9 @@ module.exports = class AdvertisingClient {
     getBrands() {
         return this.apiRequest(`brands`, null, 'GET');
     }
+    getCampaigns() {
+        return this.apiRequest(`sb/campaigns`, null, 'GET');
+    }
     registerProfile(data) {
         return this.apiRequest(`v2/sp/profiles/register`, data, `PUT`);
     }
