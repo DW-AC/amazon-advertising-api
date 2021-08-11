@@ -25,7 +25,7 @@
   "homepage": "https://github.com/humanstupidity/amazon-advertising-api#readme",
   "dependencies": {
     "json-bigint": "^1.0.0",
-    "needle": "*",
+    "needle": "^2.5.2",
     "set-interval-async": "^1.0.33",
     "zlib": "^1.0.5"
   }
