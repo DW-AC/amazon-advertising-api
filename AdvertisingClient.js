@@ -445,6 +445,9 @@ module.exports = class AdvertisingClient {
             },
             json: true,
             compressed: true,
+            open_timeout: 0,
+            response_timeout: 0,
+            read_timeout: 0,
         }
 
         if (this.options.profileId) {
@@ -453,18 +456,33 @@ module.exports = class AdvertisingClient {
 
         let response;
         let requestFailed;
-
+    
         try {
-            response = await needle(
-                method,
-                url,
-                JSONbig.stringify(data),
-                requestOptions
-            );
+            if (method.toLowerCase() === 'get' && data === null) {
+                response = await needle(
+                    'get',
+                    url,
+                    requestOptions
+                ).then((res) => {
+                    return res;
+                });
+            } else {
+                response = await needle(
+                    method,
+                    url,
+                    JSONbig.stringify(data),
+                    requestOptions
+                ).then((res) => {
+                    return res;
+                });
+            }
         } catch (error) {
             requestFailed = true;
         }
-
+    
+        console.log(`response.statusCode = ${response.statusCode}`);
+        console.log(`retry: ${retry} / ${this.options.maxRetry}`);
+        
         if (requestFailed || response.statusCode == '429' || response.statusCode == '500' || response.statusCode == '401') {
             if (retry >= this.options.maxRetry)
                 throw new Error("Maximum retry count reached.")
@@ -486,5 +504,4 @@ module.exports = class AdvertisingClient {
             return response.body;
         }
     }
-
 }
