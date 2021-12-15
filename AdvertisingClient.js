@@ -100,7 +100,7 @@ module.exports = class AdvertisingClient {
         return this.apiRequest(`v2/sp/profiles/register/${profileId}/status`, null, 'GET');
     }
     getProfile(profileId) {
-        return this.apiRequest(`v2/sp/profiles/${profileId}`, null, 'GET');
+        return this.apiRequest(`v2/profiles/${profileId}`, null, 'GET');
     }
     updateProfiles(data) {
         parseBigIntFields(data);
