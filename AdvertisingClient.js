@@ -314,8 +314,13 @@ module.exports = class AdvertisingClient {
         }
 
         let retry = 1;
+        let requeue = false;
 
         while (true) {
+            if (retry >= this.options.maxRetry) {
+                break;
+                requeue = true;
+            }
 
             let reportRequest = await this.apiRequest(`v2/reports/${reportId}`, null, 'GET');
 
@@ -333,7 +338,7 @@ module.exports = class AdvertisingClient {
             await sleep(waitTime);
 
         }
-
+        return requeue;
     }
 
     async refresh() {
